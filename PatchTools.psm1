@@ -3,13 +3,15 @@ function Get-InstalledPatches
 {
 <#
 .Synopsis
-   Short description
+   List Windows patches installed on the specified computer
 .DESCRIPTION
-   Long description
+   Using WMI, this function collects the installed Windows  
+   patches on a given system and returns the list.
 .EXAMPLE
-   Example of how to use this cmdlet
-.EXAMPLE
-   Another example of how to use this cmdlet
+   Get-InstalledPatches -ComputerName "MyComputer"
+
+   This example will list all the installed Windows patches
+   on a system.
 #>
 
     [CmdletBinding()]
@@ -27,13 +29,12 @@ function Get-InstalledPatches
 
 <#
 .Synopsis
-   Short description
-.DESCRIPTION
-   Long description
+   Get patches from two systems and find differences.
 .EXAMPLE
-   Example of how to use this cmdlet
-.EXAMPLE
-   Another example of how to use this cmdlet
+   Compare-Patches -Computer1 "FirstComputer" -Computer2 "SecondComputer"
+
+   This example compares the installed Windows patches on the computers
+   named "FirstComputer" and "SecondComputer."
 #>
 function Compare-Patches
 {
@@ -82,6 +83,5 @@ function Compare-Patches
         }
     }
 
-    #Return
     $Results | sort Patch
 }
