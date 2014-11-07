@@ -1,6 +1,11 @@
 ﻿function Write-AsCSV
 {
-    param([string[]] $List)
+    param(
+        [Parameter(Mandatory=$true,
+                   valueFromPipeline=$True,
+                   Position=0)]
+            [string[]] $List
+    )
 
     [string] $Result = ([string]::Empty)
 
