@@ -15,5 +15,5 @@
     }
     $Result = $Result.TrimEnd(", ")
 
-    Return $Result
+    Write-Output $Result
 }
