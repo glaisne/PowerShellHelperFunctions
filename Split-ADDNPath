@@ -1,0 +1,24 @@
+function Split-ADDNPath
+{
+    [CmdletBinding()]
+    Param
+    (
+        # Param1 help description
+        [Parameter(Mandatory=$true,
+                   ValueFromPipelineByPropertyName=$true,
+                   ValueFromPipeline=$true,
+                   Position=0)]
+        $DistinguishedName
+    )
+
+    Begin
+    {
+    }
+    Process
+    {
+        $DistinguishedName -replace "^..\s*=\s*[^,]*,", ""
+    }
+    End
+    {
+    }
+}
