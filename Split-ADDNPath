@@ -8,7 +8,8 @@ function Split-ADDNPath
                    ValueFromPipelineByPropertyName=$true,
                    ValueFromPipeline=$true,
                    Position=0)]
-        $DistinguishedName
+        $DistinguishedName,
+        [switch] $leaf
     )
 
     Begin
@@ -16,7 +17,15 @@ function Split-ADDNPath
     }
     Process
     {
-        $DistinguishedName -replace "^..\s*=\s*[^,]*,", ""
+        if ($leaf)
+        {
+            $DistinguishedName -replace "^..\s*=\s*(.*?),.*", '$1'
+        }
+        else
+        {
+            #$DistinguishedName -replace "^(CN|OU)\s*=\s*[^,]*,", ""
+            $DistinguishedName -replace "^..\s*=\s*.*?,(\s*..\s*=)", '$1'
+        }
     }
     End
     {
