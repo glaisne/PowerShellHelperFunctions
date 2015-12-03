@@ -14,62 +14,62 @@
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory=$true)]
-        [string[]] $ComputerName,
+        	[string[]] $ComputerName,
 
 		[int] $numberOfDays = 1,
 
 		[string] $DestinationFolder = "$env:temp\IISLogs",
 
-        [string] $Name = "IISLogs",
+        	[string] $SearchName = "IISLogs",
 
 		[string] $RegEx = $null,
 
-        [System.Management.Automation.PSCredential] $Credential = $null
+        	[System.Management.Automation.PSCredential] $Credential = $null
 	)
 
-    write-Verbose "Making sure the Destination folder does not end with '\'"
-	if ($DestinationFolder[-1] -eq "\")
+	write-Verbose "Making sure the Destination folder does not end with '\'"
+	if ($DestinationFolder[-1] -eq '\')
 	{
-		$DestinationFolder.TrimEnd("\")
+		$DestinationFolder.TrimEnd('\')
 	}
 
-    $DestFolderContents = Get-ChildItem -path $DestinationFolder -Attributes Directory
+	$DestFolderContents = Get-ChildItem -path $DestinationFolder -Attributes Directory
         
-    if ($DestFolderContents.fullname -contains "$DestinationFolder\$Name")
-    {
-        Write-Verbose "$DestinationFolder already contains a folder called $name."
-        write-Verbose "Determining a new folder to use."
+	if ($DestFolderContents.fullname -contains "$DestinationFolder\$SearchName")
+	{
+		Write-Verbose "$DestinationFolder already contains a folder called $SearchName`."
+		Write-Verbose "Determining a new folder to use."
+		
+		Foreach ($Number in (1..1000) )
+		{
+			$CurrentNumber = $("{0:D4}" -f $number)
+			if ($DestFolderContents.fullname -NotContains "$DestinationFolder\$SearchName$CurrentNumber")
+			{
+				$SearchName = "$SearchName$CurrentNumber"
+			}
+		}
+	}
 
-        Foreach ($Number in (1..1000) )
-        {
-            $CurrentNumber = $("{0:D4}" -f $number)
-            if ($DestFolderContents.fullname -NotContains "$DestinationFolder\$Name$CurrentNumber")
-            {
-                $Name = "$Name$CurrentNumber"
-            }
-        }
-    }
 
-
-    try
-    {
-        Write-verbose "Creating a new folder at '$DestinationFolder\$Name'"
-        New-item -Path "$DestinationFolder\$Name" -ItemType Directory -ErrorAction Stop
-    }
-    catch
-    {
-        Throw "Unable to write to the destination directory $DestinationFolder."
-    }
+	Write-Verbose "Creating a new folder at '$DestinationFolder\$SearchName'"
+	try
+	{
+		New-Item -Path "$DestinationFolder\$SearchName" -ItemType Directory -ErrorAction Stop
+	}
+	catch
+	{
+		Write-Error "Unable to write to the destination directory $DestinationFolder."
+	}
 
 
 	foreach ($Computer in $ComputerName)
 	{
-        $SourceDirectory = "\\$Computer\c`$\inetpub\logs\LogFiles\W3SVC1"
+	        $SourceDirectory = "\\$Computer\c`$\inetpub\logs\LogFiles\W3SVC1"
 
 
         if ( $(Test-Path getiislogs:\) )
         {
-            write-verbose "Removing pre-existing getiislogs: drive."
+            Write-Verbose "Removing pre-existing getiislogs: drive."
             Get-PSDrive "getiislogs" | Remove-PSDrive -Confirm:$false
         }
 
@@ -108,15 +108,15 @@
 			$FormattedDate = "{0:yyMMdd}" -f $WorkingDate
 			$SourceFile = "u_ex$FormattedDate`.log"
 				
-            write-verbose "Copying..."
-            write-verbose "Source     : getiislogs:\$SourceFile"
-            Write-Verbose "Destination: $DestinationFolder\$Name\u_ex$FormattedDate`.$Computer`.LOG"
+            Write-Verbose "Copying..."
+            Write-Verbose "Source     : getiislogs:\$SourceFile"
+            Write-Verbose "Destination: $DestinationFolder\$SearchName\u_ex$FormattedDate`.$Computer`.LOG"
 
             try
             {
                 $params = @{
                     Path        = "getiislogs:`\$SourceFile"
-                    Destination = "$DestinationFolder\$Name\u_ex$FormattedDate`.$Computer`.LOG"
+                    Destination = "$DestinationFolder\$SearchName\u_ex$FormattedDate`.$Computer`.LOG"
                     ErrorAction = "Stop"
                 }
                         
@@ -126,7 +126,7 @@
             {
                 $err = $_
                 Write-Error "There was an error copying the file getiislogs:`\$SourceFile"
-                write-Error $err
+                Write-Error $err
                 continue
             }
 		}
@@ -137,9 +137,9 @@
 
         write-verbose "Parsing files for requested information."
 
-		foreach ($file in Get-ChildItem "$DestinationFolder\$Name\" -Include "u_ex.*\.$Computer\.LOG")
+		foreach ($file in Get-ChildItem "$DestinationFolder\$SearchName\" -Include "u_ex.*\.$Computer\.LOG")
         {            
-            $targetFile = "{0}\{1}\{2}.{3}{4}" -f $DestinationFolder, $Name, $($file.baseName), "Parsed", $($File.Extension)
+            $targetFile = "{0}\{1}\{2}.{3}{4}" -f $DestinationFolder, $SearchName, $($file.baseName), "Parsed", $($File.Extension)
 
             Write-Verbose "Searching file $($File.FullName) for regular expression '$RegEx'"
             write-verbose "writting matches to $targetFile"
