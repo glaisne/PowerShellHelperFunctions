@@ -4,9 +4,15 @@
         [Parameter(Mandatory=$true,
                    valueFromPipeline=$True,
                    Position=0)]
+        [AllowNull()]
             [string[]] $List,
             [char]     $Delimiter = ','
     )
+
+    if ($List -eq $null)
+    {
+        return $null
+    }
 
     [string] $Result = ([string]::Empty)
 
