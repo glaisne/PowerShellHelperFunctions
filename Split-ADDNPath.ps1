@@ -14,6 +14,7 @@ function Split-ADDNPath
 
     Begin
     {
+        write-warning "This function is depricated in favor of the ADTools module version."
     }
     Process
     {

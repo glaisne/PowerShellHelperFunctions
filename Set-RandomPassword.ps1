@@ -25,7 +25,7 @@ function Set-RandomPassword
 
     Begin
     {
-
+        write-warning "This function is depricated in favor of the ADTools module version."
     }
 
     Process

@@ -24,6 +24,9 @@ function Convert-CanonicalNameToDistinguishedName
 
     Begin
     {
+        write-warning "This function is depricated in favor of the ADTools module version."
+
+
         #Name Translator Initialization Types
         $ADS_NAME_INITTYPE_DOMAIN   = 1
         $ADS_NAME_INITTYPE_SERVER   = 2
