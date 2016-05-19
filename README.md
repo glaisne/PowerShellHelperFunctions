@@ -1,5 +1,7 @@
 # PowerShellHelperFunctions #
 
+Current status: Moving away from this repository in favor of other module repositories.
+
 # Depricated files: <br>
 These functions have been deprecated in favor of either the PSTools Module or the ADTools Module.<br>
 
