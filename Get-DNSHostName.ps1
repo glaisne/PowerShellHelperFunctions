@@ -8,19 +8,19 @@ function Get-DNSHostName
 .DESCRIPTION
 	Get hostname for specified IP address
 .EXAMPLE
-	"74.125.226.16","74.125.226.17" | Get-DNSHostName |ft
+	"10.125.226.16","10.125.226.17" | Get-DNSHostName |ft
 
 	This example will get the hostname for both IP addresses.
 .EXAMPLE
-	Get-DNSHostName "74.125.226.16","74.125.226.17" |ft
+	Get-DNSHostName "10.125.226.16","10.125.226.17" |ft
 
 	This example will get the hostname for both IP addresses.
 .EXAMPLE
-	Get-DNSHostName "74.125.226.16" |ft
+	Get-DNSHostName "10.125.226.16" |ft
 
 	This example will get the hostname for an individual IP address
 .EXAMPLE
-	"74.125.226.16" | Get-DNSHostName |ft
+	"10.125.226.16" | Get-DNSHostName |ft
 
 	This example will get the hostnamees for an individual IP address
 .PARAMETER IPAddress
@@ -34,7 +34,9 @@ function Get-DNSHostName
 		[string[]] $IPAddress
 	)
 	begin
-    { }
+    {
+        Write-Warning "This function depricated in favor of the PSTools module version."
+    }
 	Process
     {
         foreach ($IP in $IPAddress)
@@ -47,5 +49,6 @@ function Get-DNSHostName
         }
 	}
 	end 
-    { }
+    {
+    }
 }

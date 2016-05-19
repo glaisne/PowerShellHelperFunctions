@@ -30,9 +30,12 @@
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
 		[string[]] $Hostname
 	)
-	begin{
+	begin
+    {
+        Write-Warning "This function depricated in favor of PSTools module version."
   	}
-	Process{
+	Process
+    {
         foreach ($h in $Hostname)
         {
             new-object PSObject -Property @{
@@ -41,6 +44,7 @@
             }
         }
 	}
-	end {
+	end
+    {
 	}
 }

@@ -28,7 +28,10 @@
         [string[]] $IPAddress
     )
 
-    Begin { }
+    Begin 
+    {
+        Write-warning "this function is depricated in favor of the PSTools module version."
+    }
     Process
     {
         foreach ($IP in $IPAddress)
@@ -42,5 +45,7 @@
             Write-Output $Result
         }
     }
-    End { }
+    End 
+    {
+    }
 }

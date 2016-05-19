@@ -9,6 +9,7 @@ Converts a Unix time into a datetime object.
     $UnixTime
   )
   begin {
+    Write-Warning "This function is depricated in favor of the PSTools module version."
     $startdate = Get-Date –Date '01/01/1970' 
   }
   process {

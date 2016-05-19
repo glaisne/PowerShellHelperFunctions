@@ -6,7 +6,7 @@ function Send-Email
 .DESCRIPTION
    Sends an email message.
 .EXAMPLE
-   Send-email -to @('gene.laisne@dtz.com','Matthew.Hallenborg@dtz.com') -from 'gene.laisne@dtz.com' -Subject 'Let me know if you get this.' -Body 'Let me know if you get this.' -SmtpServer 'domrelay.na.ugllimited.com' -Attachment @('C:\data\Transcripts_20141110083748.txt','C:\data\Transcripts_20141208081451.txt') -LogFile 'c:\temp\logfile.log'
+   Send-email -to @('gene.laisne@contoso.com','Matthew@contoso.com') -from 'gene.laisne@contoso.com' -Subject 'Let me know if you get this.' -Body 'Let me know if you get this.' -SmtpServer 'SMTP.contoso.com' -Attachment @('C:\data\File.txt','C:\data\Transcripts_20141208081451.txt') -LogFile 'c:\temp\logfile.log'
 
    this example will send email to 2 users and include 2 attacment files.
 #>

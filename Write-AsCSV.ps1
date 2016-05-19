@@ -9,6 +9,8 @@
             [char]     $Delimiter = ','
     )
 
+    Write-warning "This function depricated in favor as the PSTools module version."
+
     if ($List -eq $null)
     {
         return $null
