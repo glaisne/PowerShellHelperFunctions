@@ -20,6 +20,10 @@ function Get-VMInformation
 		[VMware.VimAutomation.ViCore.Impl.V1.Inventory.VirtualMachineImpl[]] $VM
 	)
 
+    Begin
+    {
+        $AllVMsFormatted = new-object System.Collections.ArrayList
+    }
 	Process{
 
        # $_ |fl *
@@ -53,7 +57,7 @@ function Get-VMInformation
         $($vmGuest.IPAddress) |%{$IPAddresses += "$_ " }
 
 
-		$AllVMsFormatted += New-Object PSObject -property @{
+		$AllVMsFormatted.Add($(New-Object PSObject -property @{
 			Name					= $_.name
 			OS					= $OS
 			"Special Considerations"		= $unavailableString
@@ -102,7 +106,7 @@ function Get-VMInformation
 			"CPU Count"				= $_.NumCpu
 			"IP Address"				= $IPAddresses
 			"host name"				= $($VMGuest.hostname)
-		}
+		})) | Out-Null
 
 	}
 
